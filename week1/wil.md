@@ -43,9 +43,5 @@
   - 친구 삭제
   - 특정 친구 할 일 조회
 
-# 애플리케이션 실행 사진
-![img.png](./img.png)
-=======
 # 애플리케이션 싫행 사진
-![img.png](img.png)
->>>>>>> 717f8c4 (Initial commit for week3)
+![img.png](./img.png)
