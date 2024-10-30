@@ -1,6 +1,7 @@
 package com.example.todoapi.friend;
 
-import com.example.todoapi.user.User;
+
+import com.example.todoapi.member.Member;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -18,15 +19,15 @@ public class Friend {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "friend_user1")
-    private User user1;
+    @JoinColumn(name = "friend_member1")
+    private Member member1;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "friend_user2")
-    private User user2;
+    @JoinColumn(name = "friend_member2")
+    private Member member2;
 
-    public Friend(User user1, User user2) {
-        this.user1 = user1;
-        this.user2 = user2;
+    public Friend(Member member1, Member member2) {
+        this.member1 = member1;
+        this.member2 = member2;
     }
 }
