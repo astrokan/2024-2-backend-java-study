@@ -1,7 +1,6 @@
 package com.example.todoapi.friend;
 
 import com.example.todoapi.member.Member;
-import com.example.todoapi.todo.Todo;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;

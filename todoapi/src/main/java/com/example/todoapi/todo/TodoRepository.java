@@ -34,6 +34,10 @@ public class TodoRepository {
         em.remove(todo);
     }
 
+    public void delete(Todo todo) {
+        em.remove(todo);
+    }
+
     // test 용도로만 사용!
     public void flushAndClear() {
         em.flush();

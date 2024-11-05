@@ -1,7 +1,6 @@
 package com.example.todoapi.member;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
