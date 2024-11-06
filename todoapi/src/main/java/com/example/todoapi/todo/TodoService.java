@@ -17,7 +17,7 @@ public class TodoService {
 
     // todo 생성
     @Transactional
-    public void createTodo (String content, Long memberId) throws Exception {
+    public Long createTodo (String content, Long memberId) throws Exception {
         Member member = memberRepository.findById(memberId);
 
         if (member == null) {
@@ -25,6 +25,8 @@ public class TodoService {
         }
         Todo todo = new Todo(content, member);
         todoRepository.save(todo);
+
+        return todo.getId();
     }
 
     // todo 조회(특정 멤버의 모든 할 일 조회)
