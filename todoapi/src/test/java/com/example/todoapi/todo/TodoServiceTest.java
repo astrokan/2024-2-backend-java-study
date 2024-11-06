@@ -9,6 +9,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
@@ -53,10 +55,38 @@ public class TodoServiceTest {
     @Test
     void testTodoGetAll() throws Exception {
         // given
-
+        given(memberRepository.findById(anyLong())).willReturn(new Member());
         // when
-
+        List<Todo> todoList = todoService.getAllTodo(1L);
         // then
+        verify(todoRepository, times(1)).findAllByMember(any(Member.class));
+    }
+
+    @Test
+    void testTodoUpdateContent() throws Exception {
+        given(memberRepository.findById(anyLong())).willReturn(new Member());
+        given(todoRepository.findById(anyLong())).willReturn(new Todo());
+
+        todoService.updateTodoContent(1L, "", 1L);
+
 
     }
+    @Test
+    void testTodoUpdateChecked() throws Exception {
+        given(memberRepository.findById(anyLong())).willReturn(new Member());
+        given(todoRepository.findById(anyLong())).willReturn(new Todo());
+
+        todoService.updateTodoCheckedToggle(1L, 1L);
+
+    }
+
+    @Test
+    void testTodoDelete() throws Exception {
+        given(memberRepository.findById(anyLong())).willReturn(new Member());
+        given(todoRepository.findById(anyLong())).willReturn(new Todo());
+
+        todoService.deleteTodo(1L, 1L);
+
+    }
+
 }
