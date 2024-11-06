@@ -105,6 +105,8 @@ public class TodoRepositoryTest {
 
         // when
         findTodo.updateContent("newContent");
+        // then
+        assertThat(findTodo.getContent()).isEqualTo("newContent");
     }
 
     @Test
@@ -120,6 +122,9 @@ public class TodoRepositoryTest {
         todoRepository.flushAndClear();
         // when
         todoRepository.deleteById(todo.getId());
+        // then
+        Todo deletedTodo = todoRepository.findById(todo.getId()); // 검토 필요
+        assertThat(deletedTodo).isNull();
     }
     // in memory database
     @AfterAll
