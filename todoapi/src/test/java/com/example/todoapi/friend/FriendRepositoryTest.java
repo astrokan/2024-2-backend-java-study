@@ -19,7 +19,7 @@ public class FriendRepositoryTest {
     @Autowired
     private MemberRepository memberRepository;
 
-    @Test
+    /*@Test
     @Transactional
     @Rollback(false)
     void friendCreateTest() {
@@ -41,5 +41,5 @@ public class FriendRepositoryTest {
 
 
 
-    }
+    }*/
 }

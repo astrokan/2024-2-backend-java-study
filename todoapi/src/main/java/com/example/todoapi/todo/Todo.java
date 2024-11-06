@@ -40,4 +40,8 @@ public class Todo {
     public void updateContent(String content) {
         this.content = content;
     }
+
+    public void setIsCheckedToggle() {
+        isChecked = !isChecked;
+    }
 }

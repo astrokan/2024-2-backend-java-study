@@ -126,7 +126,6 @@ public class TodoRepositoryTest {
     public static void test() {
         System.out.println("test finish!");
         while (true) {
-
         }
     }
 

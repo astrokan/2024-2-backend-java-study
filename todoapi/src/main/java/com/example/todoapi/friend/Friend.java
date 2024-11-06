@@ -17,17 +17,23 @@ public class Friend {
     @Column(name = "friend_id")
     private Long id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sender")
+    private Member sender;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "friend_member1")
-    private Member member1;
+    @JoinColumn(name = "receiver")
+    private Member receiver;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "friend_member2")
-    private Member member2;
+    @Column(name = "status")
+    private String status = "pending"; // 'pending' 'accepted'
 
-    public Friend(Member member1, Member member2) {
-        this.member1 = member1;
-        this.member2 = member2;
+    public Friend(Member sender, Member receiver) {
+        this.sender = sender;
+        this.receiver = receiver;
+    }
+
+    public void updateAccepted() {
+        this.status = "accepted";
     }
 }

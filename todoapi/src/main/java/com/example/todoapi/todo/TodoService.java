@@ -39,7 +39,7 @@ public class TodoService {
     }
 
     // todo 수정
-    public void updateTodo(Long todoId, String newContent, Long memberId) throws Exception {
+    public void updateTodoContent(Long todoId, String newContent, Long memberId) throws Exception {
         Member member = memberRepository.findById(memberId);
         Todo todo = todoRepository.findById(todoId);
 
@@ -56,6 +56,23 @@ public class TodoService {
         }
 
         todo.updateContent(newContent);
+    }
+
+    // todo 체크 토클
+    @Transactional
+    public void updateTodoCheckedToggle(Long todoId, Long memberId) throws Exception {
+        Member member = memberRepository.findById(memberId);
+        Todo todo = todoRepository.findById(todoId);
+
+        if (member == null) {
+            throw new Exception("Member not found");
+        }
+
+        if (todo == null) {
+            throw new Exception("Todo not found");
+        }
+
+        todo.setIsCheckedToggle();
     }
 
     // todo 삭제
