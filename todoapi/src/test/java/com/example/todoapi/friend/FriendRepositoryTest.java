@@ -19,7 +19,7 @@ public class FriendRepositoryTest {
     @Autowired
     private MemberRepository memberRepository;
 
-    /*@Test
+    @Test
     @Transactional
     @Rollback(false)
     void friendCreateTest() {
@@ -33,13 +33,4 @@ public class FriendRepositoryTest {
 
         assertThat(friend.getId()).isNotNull();
     }
-    void friendFindAllByMemberTest() {
-        Member member1 = new Member("1", "1");
-        Member member2 = new Member("2", "2");
-        Member member3 = new Member("3", "3");
-        Member member4 = new Member("4", "4");
-
-
-
-    }*/
 }
