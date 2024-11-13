@@ -144,7 +144,7 @@
 
 ---
 
-### Friend Controller
+### Friend Controller
 
 #### 친구 관계 생성(친구 요청 상태임, 승인된 친구 관계 아님.)
 <img src="./test2_setting.png" width="600" height="500">
