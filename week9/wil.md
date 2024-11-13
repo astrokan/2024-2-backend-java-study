@@ -130,8 +130,27 @@
 
 - 따라서 H2 콘솔에서 직접 유저를 추가한 후 테스트한다.
 
-## week9 포스트맨 테스트 스크린샷
-### 성공 case
-![테스트 결과](./test_img.png)
-### 실패 case
-![테스트 결과](./test_img.png)
+## todo-api 포스트맨 테스트 스크린샷
+
+### Member Controller
+
+#### 멤버 조회(로그인)
+![데이터 입력](./test1_setting.png)
+![데이터 입력](./test1_setting2.png)
+##### 성공 case
+![테스트 성공](./test1_result.png)
+##### 실패 case
+![테스트 실패](./test1_failure.png)
+
+---
+
+### Friend Controller
+
+#### 친구 관계 생성(친구 요청 상태임, 승인된 친구 관계 아님.)
+![데이터 입력](./test2_setting.png)
+![데이터 입력](./test2_setting2.png)
+##### 성공 case
+![테스트 성공](./test2_result.png)
+##### 실패 case(존재하지 않는 유저에게 친구 요청 보냄.)
+![테스트 실패](./test2_failure.png)
+
