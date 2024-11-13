@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -20,32 +21,52 @@ public class FriendService {
 
     // 친구 요청 (친구 요청 상태로 Friend 관계 생성하여 db 저장)
     @Transactional
-    public void requestForFriend(Long senderId, Long receiverId) throws Exception {
+    public Long requestForFriend(Long senderId, Long receiverId) throws Exception {
         Member sender = memberRepository.findById(senderId);
         Member receiver = memberRepository.findById(receiverId);
 
-        if (sender == null || receiver == null) {
-            throw new Exception("유저 또는 친구가 존재하지 않음.");
+        if (sender == null) {
+            throw new Exception("사용자의 정보가 존재하지 않습니다.");
         }
+        if (receiver == null) {
+            throw new Exception("친구는 존재하지 않는 사용자입니다.");
+        }
+
         Friend friend = new Friend(sender, receiver);
         friendRepository.save(friend);
+
+        return friend.getId();
     }
 
     // 친구 수락
     @Transactional
-    public void updateAccepted(Long friendId) throws Exception {
+    public void updateAccepted(Long friendId, Long senderId) throws Exception {
         Friend friend = friendRepository.findOneById(friendId);
 
-        if (friend == null || friend.getStatus().equals("pending")) {
-            throw new Exception("친구 관계가 존재하지 않습니다.");
+        if (friend == null) {
+            throw new Exception("친구 요청 기록이 없습니다.");
         }
+
+        if (!Objects.equals(friend.getSender().getId(), senderId)) {
+            throw new Exception("친구 요청 수락은 요청 받은 유저만 가능합니다.");
+        }
+        else if (!friend.getStatus().equals("pending")) {
+            throw new Exception("이미 친구 요청을 수락하였습니다.");
+        }
+
         friend.updateAccepted();
     }
 
-    // 유저의 친구 목록 조회
+    // 유저의 승인 상태 친구 목록 조회
     public List<Friend> getAllFriend(Long senderId) {
         Member sender = memberRepository.findById(senderId);
-        return friendRepository.findAllReceiver(sender);
+        return friendRepository.findAllFriend(sender);
+    }
+
+    // 유저가 받은 친구 요청 목록 조회
+    public List<Friend> getReceivedRequestList(Long senderId) {
+        Member sender = memberRepository.findById(senderId);
+        return friendRepository.findReceivedRequestList(sender);
     }
 
     // delete(친구 삭제)
@@ -56,7 +77,7 @@ public class FriendService {
         if (member == null) {
             throw new Exception("존재하지 않는 회원입니다.");
         }
-        if (friend == null || friend.getStatus().equals("pending")) {
+        if (friend == null) {
             throw new Exception("존재하지 않는 친구 관계입니다.");
         }
         friendRepository.deleteById(id);
@@ -71,10 +92,13 @@ public class FriendService {
         if (sender == null) {
             throw new Exception("존재하지 않는 회원입니다.");
         }
-
-        if (friend == null || friend.getStatus().equals("pending")) {
+        if (friend == null) {
+            throw new Exception("친구는 존재하지 않는 회원입니다.");
+        }
+        if (friend.getStatus().equals("pending")) {
             throw new Exception("존재하지 않는 친구 관계입니다.");
         }
+
         Member receiver = friend.getReceiver();
         return todoRepository.findAllByMember(receiver);
     }

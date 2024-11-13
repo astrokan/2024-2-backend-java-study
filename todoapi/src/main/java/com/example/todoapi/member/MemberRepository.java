@@ -1,6 +1,7 @@
 package com.example.todoapi.member;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 
@@ -18,7 +19,13 @@ public class MemberRepository {
     }
 
     public Member findByLoginId(String loginId) {
-        return em.find(Member.class, loginId);
+        try {
+            return em.createQuery("SELECT m FROM Member m WHERE m.loginId = :loginId", Member.class)
+                    .setParameter("loginId", loginId)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null; // 결과가 없을 때 null 반환
+        }
     }
 
     public void deleteById(Long id) {

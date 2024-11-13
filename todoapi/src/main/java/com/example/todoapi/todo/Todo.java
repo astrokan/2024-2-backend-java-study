@@ -23,7 +23,7 @@ public class Todo {
     private boolean isChecked = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "member_id")
     private Member member;
 
     public Todo(String content, boolean isChecked, Member member) {

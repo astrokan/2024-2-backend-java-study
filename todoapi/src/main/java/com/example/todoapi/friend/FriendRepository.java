@@ -23,8 +23,14 @@ public class FriendRepository {
         return em.find(Friend.class, id);
     }
 
-    public List<Friend> findAllReceiver(Member sender) {
+    public List<Friend> findAllFriend(Member sender) {
         return em.createQuery("select t from Friend as t where t.sender = :sender and t.status = 'accepted'", Friend.class)
+                .setParameter("sender", sender)
+                .getResultList();
+    }
+
+    public List<Friend> findReceivedRequestList(Member sender) {
+        return em.createQuery("select t from Friend as t where t.receiver = :sender and t.status = 'pending'", Friend.class)
                 .setParameter("sender", sender)
                 .getResultList();
     }

@@ -51,9 +51,10 @@ public class FriendServiceTest {
         Friend friend = mock(Friend.class);
         given(friend.getStatus()).willReturn("accepted");
         given(friendRepository.findOneById(friendId)).willReturn(friend);
+        given(friend.getSender().getId()).willReturn(1L);
 
         // when
-        friendService.updateAccepted(friendId);
+        friendService.updateAccepted(friendId, 1L);
 
         // then
         verify(friend).updateAccepted();
@@ -69,7 +70,7 @@ public class FriendServiceTest {
         List<Friend> expectedFriends = Arrays.asList(friend1, friend2);
 
         given(memberRepository.findById(senderId)).willReturn(sender);
-        given(friendRepository.findAllReceiver(sender)).willReturn(expectedFriends);
+        given(friendRepository.findAllFriend(sender)).willReturn(expectedFriends);
 
         // when
         List<Friend> result = friendService.getAllFriend(senderId);

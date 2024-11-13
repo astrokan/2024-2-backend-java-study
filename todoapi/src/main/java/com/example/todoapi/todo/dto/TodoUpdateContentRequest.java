@@ -3,7 +3,8 @@ package com.example.todoapi.todo.dto;
 import lombok.Getter;
 
 @Getter
-public class TodoUpdateRequest {
+public class TodoUpdateContentRequest {
     private Long memberId;
     private String updateContent;
 }
+

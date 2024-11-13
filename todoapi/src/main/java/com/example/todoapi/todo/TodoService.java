@@ -97,5 +97,13 @@ public class TodoService {
 
         todoRepository.delete(todo);
     }
+    @Transactional
+    public void deleteTodo(Long todoId) throws Exception {
+        Todo todo = todoRepository.findById(todoId);
 
+        if (todo == null) {
+            throw new Exception("Todo not found");
+        }
+        todoRepository.delete(todo);
+    }
 }
