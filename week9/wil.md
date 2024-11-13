@@ -135,22 +135,23 @@
 ### Member Controller
 
 #### 멤버 조회(로그인)
-![데이터 입력](./test1_setting.png)
-![데이터 입력](./test1_setting2.png)
+<img src="./test1_setting.png" width="600" height="300">
+<img src="./test1_setting2.png" width="600" height="500">
 ##### 성공 case
-![테스트 성공](./test1_result.png)
+<img src="./test1_result.png" width="600" height="500">
 ##### 실패 case
-![테스트 실패](./test1_failure.png)
+<img src="./test1_failure.png" width="600" height="500">
 
 ---
 
 ### Friend Controller
 
 #### 친구 관계 생성(친구 요청 상태임, 승인된 친구 관계 아님.)
-![데이터 입력](./test2_setting.png)
-![데이터 입력](./test2_setting2.png)
+<img src="./test2_setting.png" width="600" height="500">
+<img src="./test2_setting2.png" width="600" height="500">
 ##### 성공 case
-![테스트 성공](./test2_result.png)
+<img src="./test2_result.png" width="600" height="500">
 ##### 실패 case(존재하지 않는 유저에게 친구 요청 보냄.)
-![테스트 실패](./test2_failure.png)
+<img src="./test2_failure.png" width="600" height="500">
+
 
