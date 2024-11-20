@@ -1,5 +1,8 @@
 package com.example.todoapi.friend;
 
+import com.example.todoapi.common.exception.BadDataAccessException;
+import com.example.todoapi.common.exception.BadRequestException;
+import com.example.todoapi.common.message.ErrorMessage;
 import com.example.todoapi.member.Member;
 import com.example.todoapi.member.MemberRepository;
 import com.example.todoapi.todo.Todo;
@@ -21,15 +24,15 @@ public class FriendService {
 
     // 친구 요청 (친구 요청 상태로 Friend 관계 생성하여 db 저장)
     @Transactional
-    public Long requestForFriend(Long senderId, Long receiverId) throws Exception {
+    public Long requestForFriend(Long senderId, Long receiverId) throws BadRequestException {
         Member sender = memberRepository.findById(senderId);
         Member receiver = memberRepository.findById(receiverId);
 
         if (sender == null) {
-            throw new Exception("사용자의 정보가 존재하지 않습니다.");
+            throw new BadRequestException(ErrorMessage.MEMBER_NOT_EXISTS);
         }
         if (receiver == null) {
-            throw new Exception("친구는 존재하지 않는 사용자입니다.");
+            throw new BadRequestException(ErrorMessage.RECEIVER_NOT_EXISTS);
         }
 
         Friend friend = new Friend(sender, receiver);
@@ -38,20 +41,20 @@ public class FriendService {
         return friend.getId();
     }
 
-    // 친구 수락
+    // 친구 수락(id : 친구 관계 id, senderId : 친구 요청자 id)
     @Transactional
-    public void updateAccepted(Long friendId, Long senderId) throws Exception {
-        Friend friend = friendRepository.findOneById(friendId);
+    public void updateAccepted(Long id, Long receiverId) throws Exception {
+        Friend friend = friendRepository.findOneById(id);
 
         if (friend == null) {
-            throw new Exception("친구 요청 기록이 없습니다.");
+            throw new BadRequestException(ErrorMessage.REQUEST_FOR_FRIEND_NOT_EXISTS);
         }
 
-        if (!Objects.equals(friend.getSender().getId(), senderId)) {
-            throw new Exception("친구 요청 수락은 요청 받은 유저만 가능합니다.");
+        if (!Objects.equals(friend.getReceiver().getId(), receiverId)) {
+            throw new BadDataAccessException(ErrorMessage.ONLY_RECEIVER_CAN_ACCEPT_REQUEST_FOR_FRIEND);
         }
-        else if (!friend.getStatus().equals("pending")) {
-            throw new Exception("이미 친구 요청을 수락하였습니다.");
+        else if (friend.getStatus().equals("accepted")) {
+            throw new BadDataAccessException(ErrorMessage.REQUEST_FOR_FRIEND_ALREADY_ACCEPTED);
         }
 
         friend.updateAccepted();
@@ -75,10 +78,10 @@ public class FriendService {
         Friend friend = friendRepository.findOneById(id);
 
         if (member == null) {
-            throw new Exception("존재하지 않는 회원입니다.");
+            throw new BadRequestException(ErrorMessage.MEMBER_NOT_EXISTS);
         }
         if (friend == null) {
-            throw new Exception("존재하지 않는 친구 관계입니다.");
+            throw new BadRequestException(ErrorMessage.FRIEND_RELATIONSHIP_NOT_EXISTS);
         }
         friendRepository.deleteById(id);
     }
@@ -90,13 +93,13 @@ public class FriendService {
         Friend friend = friendRepository.findOneById(id);
 
         if (sender == null) {
-            throw new Exception("존재하지 않는 회원입니다.");
+            throw new BadRequestException(ErrorMessage.MEMBER_NOT_EXISTS);
         }
         if (friend == null) {
-            throw new Exception("친구는 존재하지 않는 회원입니다.");
+            throw new BadRequestException(ErrorMessage.RECEIVER_NOT_EXISTS);
         }
         if (friend.getStatus().equals("pending")) {
-            throw new Exception("존재하지 않는 친구 관계입니다.");
+            throw new BadDataAccessException(ErrorMessage.FRIEND_RELATIONSHIP_NOT_EXISTS);
         }
 
         Member receiver = friend.getReceiver();

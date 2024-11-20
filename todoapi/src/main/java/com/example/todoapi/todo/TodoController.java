@@ -2,6 +2,7 @@ package com.example.todoapi.todo;
 
 import com.example.todoapi.todo.dto.TodoCreateRequest;
 import com.example.todoapi.todo.dto.TodoUpdateContentRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class TodoController {
     private final TodoService todoService;
 
     @PostMapping
-    public ResponseEntity<Void> createTodo(@RequestBody TodoCreateRequest request) throws Exception {
+    public ResponseEntity<Void> createTodo(@RequestBody @Valid TodoCreateRequest request) throws Exception {
         Long todoId = todoService.createTodo(request.getContent(), request.getMemberId());
         return ResponseEntity.created(URI.create("todo/"+todoId)).build();
     }
@@ -28,7 +29,7 @@ public class TodoController {
     }
     // Patch(내용 수정)
     @PatchMapping("/{todoId}")
-    public ResponseEntity<Void> updateTodoContent(@PathVariable Long todoId, @RequestBody TodoUpdateContentRequest request) throws Exception {
+    public ResponseEntity<Void> updateTodoContent(@PathVariable Long todoId, @RequestBody @Valid TodoUpdateContentRequest request) throws Exception {
         todoService.updateTodoContent(todoId, request.getUpdateContent(), request.getMemberId());
         return ResponseEntity.ok().build();
     }

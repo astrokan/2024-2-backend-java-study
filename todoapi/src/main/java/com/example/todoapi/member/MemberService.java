@@ -1,5 +1,7 @@
 package com.example.todoapi.member;
 
+import com.example.todoapi.common.exception.BadRequestException;
+import com.example.todoapi.common.message.ErrorMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,16 +22,16 @@ public class MemberService {
 
     // 로그인
     @Transactional
-    public Member memberLogin(String loginId, String password) throws Exception {
+    public Member memberLogin(String loginId, String password) throws BadRequestException {
         Member member = memberRepository.findByLoginId(loginId);
 
         // id 검증
         if (member == null) {
-            throw new Exception("존재하지 않는 회원입니다.");
+            throw new BadRequestException(ErrorMessage.MEMBER_NOT_EXISTS);
         }
         // pw 검증
         if (!member.getPassword().equals(password)) {
-            throw new Exception("틀린 비밀번호입니다.");
+            throw new BadRequestException(ErrorMessage.WRONG_PASSWORD);
         }
 
         return member;

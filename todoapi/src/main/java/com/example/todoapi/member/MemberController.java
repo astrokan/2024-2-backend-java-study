@@ -2,6 +2,7 @@ package com.example.todoapi.member;
 
 
 import com.example.todoapi.member.dto.MemberLoginRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +19,7 @@ public class MemberController {
 
     // 로그인 후 member_id 리턴
     @GetMapping
-    public ResponseEntity<Long> memberLogin(@RequestBody MemberLoginRequest request) throws Exception {
+    public ResponseEntity<Long> memberLogin(@RequestBody @Valid MemberLoginRequest request) throws Exception {
         Member member = memberService.memberLogin(request.getLoginId(), request.getPassword());
         return ResponseEntity.ok().body(member.getId());
     }

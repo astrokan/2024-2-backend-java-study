@@ -1,5 +1,8 @@
 package com.example.todoapi.todo;
 
+import com.example.todoapi.common.exception.BadDataAccessException;
+import com.example.todoapi.common.exception.BadRequestException;
+import com.example.todoapi.common.message.ErrorMessage;
 import com.example.todoapi.member.Member;
 import com.example.todoapi.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,11 +20,11 @@ public class TodoService {
 
     // todo 생성
     @Transactional
-    public Long createTodo (String content, Long memberId) throws Exception {
+    public Long createTodo (String content, Long memberId) throws BadRequestException {
         Member member = memberRepository.findById(memberId);
 
         if (member == null) {
-            throw new Exception("Member not found");
+            throw new BadRequestException(ErrorMessage.MEMBER_NOT_EXISTS);
         }
         Todo todo = new Todo(content, member);
         todoRepository.save(todo);
@@ -31,30 +34,30 @@ public class TodoService {
 
     // todo 조회(특정 멤버의 모든 할 일 조회)
     @Transactional(readOnly = true)
-    public List<Todo> getAllTodo(Long memberId) throws Exception {
+    public List<Todo> getAllTodo(Long memberId) throws BadRequestException {
         Member member = memberRepository.findById(memberId);
         if (member == null) {
-            throw new Exception("Member not found");
+            throw new BadRequestException(ErrorMessage.MEMBER_NOT_EXISTS);
         }
 
         return todoRepository.findAllByMember(member);
     }
 
     // todo 수정
-    public void updateTodoContent(Long todoId, String newContent, Long memberId) throws Exception {
-        Member member = memberRepository.findById(memberId);
+    public void updateTodoContent(Long todoId, String newContent, Long memberId) throws BadRequestException {
         Todo todo = todoRepository.findById(todoId);
+        Member member = memberRepository.findById(memberId);
 
         if (member == null) {
-            throw new Exception("Member not found");
+            throw new BadRequestException(ErrorMessage.MEMBER_NOT_EXISTS);
         }
 
         if (todo == null) {
-            throw new Exception("Todo not found");
+            throw new BadRequestException(ErrorMessage.TODO_NOT_EXISTS);
         }
 
         if (todo.getMember() != member) {
-            throw new Exception("Cannot update a todo of another member");
+            throw new BadDataAccessException(ErrorMessage.CANNOT_ACCESS_TODO_OF_ANOTHER_MEMBER);
         }
 
         todo.updateContent(newContent);
@@ -67,11 +70,11 @@ public class TodoService {
         Todo todo = todoRepository.findById(todoId);
 
         if (member == null) {
-            throw new Exception("Member not found");
+            throw new BadRequestException(ErrorMessage.MEMBER_NOT_EXISTS);
         }
 
         if (todo == null) {
-            throw new Exception("Todo not found");
+            throw new BadRequestException(ErrorMessage.TODO_NOT_EXISTS);
         }
 
         todo.setIsCheckedToggle();
@@ -79,20 +82,20 @@ public class TodoService {
 
     // todo 삭제
     @Transactional
-    public void deleteTodo(Long todoId, Long memberId) throws Exception {
+    public void deleteTodo(Long todoId, Long memberId) throws BadRequestException {
         Member member = memberRepository.findById(memberId);
         Todo todo = todoRepository.findById(todoId);
 
         if (member == null) {
-            throw new Exception("Member not found");
+            throw new BadRequestException(ErrorMessage.MEMBER_NOT_EXISTS);
         }
 
         if (todo == null) {
-            throw new Exception("Todo not found");
+            throw new BadRequestException(ErrorMessage.TODO_NOT_EXISTS);
         }
 
         if (todo.getMember() != member) {
-            throw new Exception("Cannot update a todo of another member");
+            throw new BadDataAccessException(ErrorMessage.CANNOT_ACCESS_TODO_OF_ANOTHER_MEMBER);
         }
 
         todoRepository.delete(todo);
@@ -102,7 +105,7 @@ public class TodoService {
         Todo todo = todoRepository.findById(todoId);
 
         if (todo == null) {
-            throw new Exception("Todo not found");
+            throw new Exception(ErrorMessage.TODO_NOT_EXISTS);
         }
         todoRepository.delete(todo);
     }

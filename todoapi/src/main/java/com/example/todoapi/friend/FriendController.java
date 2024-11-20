@@ -3,6 +3,7 @@ package com.example.todoapi.friend;
 import com.example.todoapi.friend.dto.FriendInfoRequest;
 import com.example.todoapi.friend.dto.TodoOfFriendRequest;
 import com.example.todoapi.todo.Todo;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class FriendController {
 
     // create : 친구 관계 생성(친구 요청 상태임, 승인된 친구 관계 아님.)
     @PostMapping
-    public ResponseEntity<Void> requestForFriend(@RequestBody FriendInfoRequest request) throws Exception{
+    public ResponseEntity<Void> requestForFriend(@RequestBody @Valid FriendInfoRequest request) throws Exception{
         Long friendId = friendService.requestForFriend(request.getSenderId(), request.getReceiverId());
         return ResponseEntity.created(URI.create("/friend"+friendId)).build();
     }
@@ -38,7 +39,7 @@ public class FriendController {
     }
     // read : 친구의 할 일 조회
     @GetMapping("/todoOfFriend")
-    public ResponseEntity<List<Todo>> getTodoOfFriend(@RequestBody TodoOfFriendRequest request) throws Exception{
+    public ResponseEntity<List<Todo>> getTodoOfFriend(@RequestBody @Valid TodoOfFriendRequest request) throws Exception{
         List<Todo> todoList = friendService.getTodoOfFriend(request.getFriendId(), request.getMemberId());
         return ResponseEntity.ok().body(todoList);
     }
