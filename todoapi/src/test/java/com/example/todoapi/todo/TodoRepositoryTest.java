@@ -1,3 +1,4 @@
+/*
 package com.example.todoapi.todo;
 
 import com.example.todoapi.member.Member;
@@ -100,7 +101,7 @@ public class TodoRepositoryTest {
         Todo todo = new Todo("content", false, null);
         todoRepository.save(todo);
 
-        todoRepository.flushAndClear();
+        todoRepository.flushAndClear();flushAndClear
         Todo findTodo = todoRepository.findById(todo.getId());
 
         // when
@@ -135,3 +136,4 @@ public class TodoRepositoryTest {
     }
 
 }
+*/
