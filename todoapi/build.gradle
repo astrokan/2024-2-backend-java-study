@@ -39,5 +39,5 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 springBoot {
-	mainClass = 'com.example.todoapi.TodoApiApplication'
+	mainClass = 'com.example.todoapi.TodoapiApplication'
 }
