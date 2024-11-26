@@ -34,14 +34,3 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
-
-springBoot {
-	mainClass = 'com.example.todoapi.TodoapiApplication'
-}
-bootJar {
-    archiveBaseName.set('todoapi')
-    archiveVersion.set('0.0.1-SNAPSHOT')
-}
-tasks.named('bootJar') {
-    mainClass.set('com.example.todoapi.TodoapiApplication')
-}
