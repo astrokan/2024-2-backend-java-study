@@ -36,12 +36,12 @@ tasks.named('test') {
 }
 
 springBoot {
-	mainClass = 'com.example.todoapi.TodoApiApplication'
+	mainClass = 'com.example.todoapi.TodoapiApplication'
 }
 bootJar {
     archiveBaseName.set('todoapi')
     archiveVersion.set('0.0.1-SNAPSHOT')
 }
 tasks.named('bootJar') {
-    mainClass.set('com.example.todoapi.TodoApiApplication')
+    mainClass.set('com.example.todoapi.TodoapiApplication')
 }
