@@ -38,3 +38,7 @@ tasks.named('test') {
 springBoot {
 	mainClass = 'com.example.todoapi.TodoApiApplication'
 }
+bootJar {
+    archiveBaseName.set('todoapi')
+    archiveVersion.set('0.0.1-SNAPSHOT')
+}
