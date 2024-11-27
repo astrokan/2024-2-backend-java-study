@@ -37,4 +37,5 @@
 
 한 학기 동안 유익하고 알찬 내용으로 이끌어 주신 스터디 멘토님께 감사하다는 말씀 드리고 싶다.
 
-## 배포 후 swagger-ui 스크린샷
+## 배포 후 swagger-ui 스크린샷(koyeb 활용)
+<img src="./koyeb_succeed.png" width="700" height="400">
