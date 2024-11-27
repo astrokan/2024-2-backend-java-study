@@ -40,5 +40,5 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 bootJar {
-	mainClass = 'com.example.TodoapiApplication'
+	mainClass = 'com.example.todoapi.TodoapiApplication'
 }
